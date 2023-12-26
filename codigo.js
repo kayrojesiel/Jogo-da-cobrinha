@@ -9,7 +9,41 @@ const snake = [
    
 ]
 
+const numeroaleatorio = (min, max) => {
+    return Math.round (Math.random() * (max-min) + min)
+}
+
+const posiçãoaleatoria = () => {
+    const number = numeroaleatorio(0, canvas.width - size)
+    return Math.round (number / 30) * 30
+}
+
+const coraleatoria = () =>  {
+    const red = numeroaleatorio(0, 255)
+    const green = numeroaleatorio(0, 255)
+    const blue = numeroaleatorio(0, 255)
+
+    return `rgb(${red},${green},${blue})`
+}
+
+const comida = {
+    x:posiçãoaleatoria(),
+    y:posiçãoaleatoria(), 
+    color:coraleatoria()
+}
+
 let direção,   loopId = ""
+
+const drawcomida = () => {
+    
+    const { x, y, color} = comida
+
+    ctx.shadowColor = color
+    ctx.shadowBlur = 50
+    ctx.fillStyle = color
+    ctx.fillRect(x, y, size, size)
+    ctx.shadowBlur = 0
+}
 
 const drawSnake = () => {
     ctx.fillStyle = "#ddd"
@@ -47,29 +81,56 @@ const movimentação = () => {
 
 const drawGrid = () => {
     ctx.lineWidth = 1
-    ctx.strokeStyle = "red"
+    ctx.strokeStyle = "#191919"
 
-    ctx.lineTo(300,0)
-    ctx.lineTo(300,600)
+    for(let i = 30; i < canvas.width; i += 30){
+        ctx.beginPath()
+        ctx.lineTo(0,i)
+        ctx.lineTo(600,i)
+        ctx.stroke()
 
-    ctx.stroke()
+        ctx.beginPath()
+        ctx.lineTo(i,0)
+        ctx.lineTo(i,600)
+        ctx.stroke()
+    }
+
 }
 
-drawGrid()
+const checarcomida = () => {
+    const cabeça = snake[snake.length-1]
+    if(cabeça.x == comida.x && cabeça.y == comida.y){
+        snake.push(cabeça)
+
+     let x = posiçãoaleatoria()
+     let y = posiçãoaleatoria()
+
+     while (snake.find((position) => position.x == x && position.y == y)){
+        x = posiçãoaleatoria()
+        y = posiçãoaleatoria()
+     }
+     comida.x = x
+     comida.y = y
+     comida.color = coraleatoria()
+    }
+}
 
 const GameLoop = () => {
     clearInterval(loopId)
 
     ctx.clearRect(0, 0, 600, 600)
-
+    drawGrid()
+    drawcomida()
     movimentação()
     drawSnake()
+    checarcomida()
 
     loopId = setTimeout(() => {
         GameLoop()
     }, 300)
 }
-// GameLoop()
+
+ GameLoop()
 
 document.addEventListener("keydown",({key}) => {
     if(key == "ArrowRight" && direção != "left"){
