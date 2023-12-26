@@ -1,0 +1,23 @@
+@font-face {
+    font-family: Game;
+    src: url(font/Games.ttf);
+}
+
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: Game;
+}
+body{
+    background-color: #191919;
+    display: flex;
+    min-height: 100vh;
+    align-items:center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+}
+canvas{
+    background-color: black;
+}
