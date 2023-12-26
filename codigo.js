@@ -1,13 +1,22 @@
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
 
+const score = document.querySelector(".score--value")
+const finalscore = document.querySelector("final-score > span")
+const menu = document.querySelector(".menu-screen")
+const buttonPlay = document.querySelector(".btn-play")
+
+const audio = new Audio('/audio/la-ele.mp3')
+
 const size = 30
 
-const snake = [
-    {x:270, y:240},
-   
-   
-]
+const initialPosition = {x: 270, y: 240}
+
+let snake = [initialPosition]
+
+const incrementScore = () => {
+    score.innerText = +score.innerText + 10
+}
 
 const numeroaleatorio = (min, max) => {
     return Math.round (Math.random() * (max-min) + min)
@@ -100,7 +109,9 @@ const drawGrid = () => {
 const checarcomida = () => {
     const cabeça = snake[snake.length-1]
     if(cabeça.x == comida.x && cabeça.y == comida.y){
+        incrementScore()
         snake.push(cabeça)
+        audio.play()
 
      let x = posiçãoaleatoria()
      let y = posiçãoaleatoria()
@@ -115,6 +126,28 @@ const checarcomida = () => {
     }
 }
 
+const checarcolisão = () => {
+    const cabeça = snake[snake.length - 1]
+    const canvasLimit = canvas.width - size
+    const neckIndex = snake.length - 2
+
+    const wallColision = cabeça.x < 0 || cabeça.x > 570 || cabeça.y < 0 || cabeça.y > 570
+
+    const selfColision = snake.find((position,index) => {
+        return index < neckIndex && position.x == cabeça.x && position.y == cabeça.y
+    })
+
+    if(wallColision || selfColision){
+        gameOver()
+    }
+}
+const gameOver = () => {
+    direction = undefined
+    menu.style.display = "flex"
+    finalscore.innerText = score.innerText
+    canvas.style.filter = "blur(2px)"
+}
+
 const GameLoop = () => {
     clearInterval(loopId)
 
@@ -124,6 +157,7 @@ const GameLoop = () => {
     movimentação()
     drawSnake()
     checarcomida()
+    checarcolisão()
 
     loopId = setTimeout(() => {
         GameLoop()
@@ -147,3 +181,9 @@ document.addEventListener("keydown",({key}) => {
     }
 })
 
+buttonPlay.addEventListener("click", () =>{
+    score.innerText = "00"
+    menu.style.display = "none"
+    canvas.style.filter = "none"
+    snake = [initialPosition]
+})
