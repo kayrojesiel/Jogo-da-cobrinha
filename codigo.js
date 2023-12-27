@@ -2,7 +2,7 @@ const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
 
 const score = document.querySelector(".score--value")
-const finalscore = document.querySelector("final-score > span")
+const finalscore = document.querySelector(".final-score > span")
 const menu = document.querySelector(".menu-screen")
 const buttonPlay = document.querySelector(".btn-play")
 
@@ -131,7 +131,7 @@ const checarcolisão = () => {
     const canvasLimit = canvas.width - size
     const neckIndex = snake.length - 2
 
-    const wallColision = cabeça.x < 0 || cabeça.x > 570 || cabeça.y < 0 || cabeça.y > 570
+    const wallColision = cabeça.x < 0 || cabeça.x > canvasLimit || cabeça.y < 0 || cabeça.y > canvasLimit
 
     const selfColision = snake.find((position,index) => {
         return index < neckIndex && position.x == cabeça.x && position.y == cabeça.y
@@ -142,7 +142,7 @@ const checarcolisão = () => {
     }
 }
 const gameOver = () => {
-    direction = undefined
+    direção = undefined
     menu.style.display = "flex"
     finalscore.innerText = score.innerText
     canvas.style.filter = "blur(2px)"
@@ -182,7 +182,7 @@ document.addEventListener("keydown",({key}) => {
 })
 
 buttonPlay.addEventListener("click", () =>{
-    score.innerText = "00"
+    score.innerText = "00 "
     menu.style.display = "none"
     canvas.style.filter = "none"
     snake = [initialPosition]
