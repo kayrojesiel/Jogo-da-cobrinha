@@ -85,7 +85,7 @@ const movimentação = () => {
     if (direção == "up"){
         snake.push({x:cabeça.x, y:cabeça.y - size})
     }
-
+    
     snake.shift()
 }
 
@@ -143,12 +143,14 @@ const checarcolisão = () => {
     }
     
 }
+
 const gameOver = () => {
     direção = undefined
     menu.style.display = "flex"
     finalscore.innerText = score.innerText
     canvas.style.filter = "blur(2px)"
     audio2.play()
+    
 }
 
 const GameLoop = () => {
@@ -182,6 +184,7 @@ document.addEventListener("keydown",({key}) => {
     if(key == "ArrowUp" && direção != "down"){
         direção = "up"
     }
+    
 })
 
 buttonPlay.addEventListener("click", () =>{
@@ -189,5 +192,6 @@ buttonPlay.addEventListener("click", () =>{
     menu.style.display = "none"
     canvas.style.filter = "none"
     snake = [initialPosition]
+    audio2.pause()
 
 })
