@@ -42,7 +42,7 @@ const comida = {
     color:coraleatoria()
 }
 
-let direção,   loopId = ""
+let direção,   loopId 
 
 const drawcomida = () => {
     
@@ -85,7 +85,8 @@ const movimentação = () => {
     if (direção == "up"){
         snake.push({x:cabeça.x, y:cabeça.y - size})
     }
-    
+
+
     snake.shift()
 }
 
@@ -142,8 +143,9 @@ const checarcolisão = () => {
         gameOver()
     }
     
+    
+    
 }
-
 const gameOver = () => {
     direção = undefined
     menu.style.display = "flex"
