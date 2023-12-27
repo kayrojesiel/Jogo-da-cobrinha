@@ -7,6 +7,7 @@ const menu = document.querySelector(".menu-screen")
 const buttonPlay = document.querySelector(".btn-play")
 
 const audio = new Audio('/audio/la-ele.mp3')
+const audio2 = new Audio('/audio/triste.mp3')
 
 const size = 30
 
@@ -140,12 +141,14 @@ const checarcolisão = () => {
     if(wallColision || selfColision){
         gameOver()
     }
+    
 }
 const gameOver = () => {
     direção = undefined
     menu.style.display = "flex"
     finalscore.innerText = score.innerText
     canvas.style.filter = "blur(2px)"
+    audio2.play()
 }
 
 const GameLoop = () => {
@@ -186,4 +189,5 @@ buttonPlay.addEventListener("click", () =>{
     menu.style.display = "none"
     canvas.style.filter = "none"
     snake = [initialPosition]
+
 })
