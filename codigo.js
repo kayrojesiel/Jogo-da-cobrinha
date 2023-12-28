@@ -152,6 +152,7 @@ const gameOver = () => {
     finalscore.innerText = score.innerText
     canvas.style.filter = "blur(2px)"
     audio2.play()
+    snake = [NaN]
     
 }
 
